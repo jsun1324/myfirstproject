@@ -1,10 +1,12 @@
 package com.mycompany.graphingcalculator;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -26,6 +28,20 @@ public class App extends Application {
 //        var scene = new Scene(new StackPane(label), 640, 480);
 //        stage.setScene(scene);
 //        stage.show();
+//        testing
+        final ComboBox emailComboBox = new ComboBox();
+        emailComboBox.getItems().addAll(
+            "jacob.smith@example.com",
+            "isabella.johnson@example.com",
+            "ethan.williams@example.com",
+            "emma.jones@example.com",
+            "michael.brown@example.com"  
+        );
+        
+        
+        Group root = new Group();
+        root.getChildren().add(emailComboBox);
+        
         int a = 100;
         int b = 100;
         int c = 100;
@@ -51,8 +67,10 @@ public class App extends Application {
             
         }
         
-        Scene scene  = new Scene(lineChart,800,600);
+        Scene scene  = new Scene(root,800,600);
         lineChart.getData().add(series);
+        root.getChildren().add(lineChart);
+        //SWITCH FROM GROUP TO VBOX TO FIX LAYOUT
        
         stage.setScene(scene);
         stage.show();
