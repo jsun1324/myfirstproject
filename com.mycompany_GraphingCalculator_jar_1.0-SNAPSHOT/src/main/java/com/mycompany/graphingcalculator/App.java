@@ -23,80 +23,131 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        var javaVersion = SystemInfo.javaVersion();
-        var javafxVersion = SystemInfo.javafxVersion();
-
-//        var label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-//        var scene = new Scene(new StackPane(label), 640, 480);
-//        stage.setScene(scene);
-//        stage.show();
-//        testing
+        
+        //initializing the combo box/equation type chooser
         final ComboBox emailComboBox = new ComboBox();
         emailComboBox.getItems().addAll(
                 "y=mx+b",
                 "y=ax^2+bx+c",
-                "y=x^2",
-                "y=sin(x)",
-                "y=cos(x)"
+                "y=ax^3+bx^2+cx",
+                "y=ax^4+bx^3+cx^2",
+                "y=ax^2",
+                "y=asin(x)",
+                "y=acos(x)"
         );
 
-        Group root = new Group();
-        root.getChildren().add(emailComboBox);
-
-        int a = 100;
-        int b = 100;
-        int c = 100;
-        int powa = 2;
-        int powb = 1;
-        int powc = 0;
+        
+        
+        //Setting window title
         stage.setTitle("Graphing Calculator");
+        
+        //setting up graphing area
+        
         //defining the axes
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         //creating the chart
         final LineChart<Number, Number> lineChart
                 = new LineChart<Number, Number>(xAxis, yAxis);
-
+        //defining graph title
         lineChart.setTitle("Graph of Equation");
         //defining a series
         XYChart.Series series = new XYChart.Series();
 
-        //populating the series with data
-        for (int i = -100; i < 100; i++) {
-            series.getData().add(new XYChart.Data(i, a * Math.pow(i, powa) + b * Math.pow(i, powb) + c * Math.pow(i, powc)));
+        //setting up text entry area/text field
+        TextField textField = new TextField();
+        //setting prompt text
+        textField.setPromptText("Enter your variables in order, seperated by a space in this text field.");
 
-        }
-        
-        
-        
-        TextField textField = new TextField ();
-
+        //initializing graph button
         Button graph = new Button("Graph");
 
+        //setting graph button actions
         graph.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                //check if text area is empty, if not proceed
                 if ((textField.getText() != null && !textField.getText().isEmpty())) {
-                    if(emailComboBox.getValue().equals("y=mx+b")){
-                        System.out.println("LIN " + textField.getText());
-                    }else if(emailComboBox.getValue().equals("y=ax^2+bx+c")){
-                        System.out.println("QUAD " + textField.getText());
-                    }else if(emailComboBox.getValue().equals("y=x^2")){
-                        System.out.println("POW " + textField.getText());
-                    }else if(emailComboBox.getValue().equals("y=sin(x)")){
-                        System.out.println("SIN " + textField.getText());
-                    }else if(emailComboBox.getValue().equals("y=cos(x)")){
-                        System.out.println("COS " + textField.getText());
+                    //checking if the equation type chooser is set to any equation type
+                    //clears previous series
+                    //if it is determined that it is a type of equation, the program splits the string entered
+                    //in the text entry area and parses them as integers to use as variables in the equation
+                    //a for loop then populates the series with each output value from -10 to 10 on intervals of 0.1
+                    if (emailComboBox.getValue().equals("y=mx+b")) {
+                        series.getData().clear();
+                        String[] arrOfStr = textField.getText().split(" ");
+                        int a = Integer.parseInt(arrOfStr[0]);
+                        int b = Integer.parseInt(arrOfStr[1]);
+                        for (double i = -10; i < 10; i = i + 0.1) {
+                            series.getData().add(new XYChart.Data(i, a * i + b));
+                        }
+                        //System.out.println("LIN " + textField.getText());
+                    } else if (emailComboBox.getValue().equals("y=ax^2+bx+c")) {
+                        series.getData().clear();
+                        String[] arrOfStr = textField.getText().split(" ");
+                        int a = Integer.parseInt(arrOfStr[0]);
+                        int b = Integer.parseInt(arrOfStr[1]);
+                        int c = Integer.parseInt(arrOfStr[2]);
+                        for (double i = -10; i < 10; i = i + 0.1) {
+                            series.getData().add(new XYChart.Data(i, a * Math.pow(i, 2) + b * i + c));
+                        }
+                        //System.out.println("QUAD " + textField.getText());
+                    } else if (emailComboBox.getValue().equals("y=ax^3+bx^2+cx")) {
+                        series.getData().clear();
+                        String[] arrOfStr = textField.getText().split(" ");
+                        int a = Integer.parseInt(arrOfStr[0]);
+                        int b = Integer.parseInt(arrOfStr[1]);
+                        int c = Integer.parseInt(arrOfStr[2]);
+                        for (double i = -10; i < 10; i = i + 0.1) {
+                            series.getData().add(new XYChart.Data(i, a * Math.pow(i, 3) + b * Math.pow(i, 2) + c * i));
+                        }
+                        //System.out.println("QUADBUTBIGGER " + textField.getText());
+                    } else if (emailComboBox.getValue().equals("y=ax^4+bx^3+cx^2")) {
+                        series.getData().clear();
+                        String[] arrOfStr = textField.getText().split(" ");
+                        int a = Integer.parseInt(arrOfStr[0]);
+                        int b = Integer.parseInt(arrOfStr[1]);
+                        int c = Integer.parseInt(arrOfStr[2]);
+                        for (double i = -10; i < 10; i = i + 0.1) {
+                            series.getData().add(new XYChart.Data(i, a * Math.pow(i, 4) + b * Math.pow(i, 3) + c * Math.pow(i, 2)));
+                        }
+                        //System.out.println("QUADBUTEVENBIGGER " + textField.getText());
+                    } else if (emailComboBox.getValue().equals("y=ax^2")) {
+                        series.getData().clear();
+                        int a = Integer.parseInt(textField.getText());
+                        for (double i = -10; i < 10; i = i + 0.1) {
+                            series.getData().add(new XYChart.Data(i, a*Math.pow(i, 2)));
+                        }
+                        //System.out.println("POW " + textField.getText());
+                    } else if (emailComboBox.getValue().equals("y=asin(x)")) {
+                        series.getData().clear();
+                        int a = Integer.parseInt(textField.getText());
+                        for (double i = -10; i < 10; i = i + 0.1) {
+                            series.getData().add(new XYChart.Data(i, a*Math.sin(i)));
+                        }
+                        //System.out.println("SIN " + textField.getText());
+                    } else if (emailComboBox.getValue().equals("y=acos(x)")) {
+                        series.getData().clear();
+                        int a = Integer.parseInt(textField.getText());
+                        for (double i = -10; i < 10; i = i + 0.1) {
+                            series.getData().add(new XYChart.Data(i, a*Math.cos(i)));
+                        }
+                        //System.out.println("COS " + textField.getText());
                     }
                 }
             }
         });
-
+        
+        //adding data from series to graph
+        lineChart.getData().add(series);
+        //adding every object to a vbox for formatting
         VBox vbox = new VBox(emailComboBox, textField, graph, lineChart);
+        //initializing the main scene and adding the vbox
         Scene scene = new Scene(vbox, 800, 600);
 
-        //SWITCH FROM GROUP TO VBOX TO FIX LAYOUT
+        //setting scene
         stage.setScene(scene);
+        //showing scene
         stage.show();
     }
 
