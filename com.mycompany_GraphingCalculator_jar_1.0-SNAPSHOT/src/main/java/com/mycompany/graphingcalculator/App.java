@@ -1,6 +1,7 @@
 package com.mycompany.graphingcalculator;
 
 import javafx.application.Application;
+import static javafx.application.Application.STYLESHEET_MODENA;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -53,6 +54,7 @@ public class App extends Application {
         lineChart.setTitle("Graph of Equation");
         //defining a series
         XYChart.Series series = new XYChart.Series();
+        
 
         //setting up text entry area/text field
         TextField textField = new TextField();
@@ -78,6 +80,7 @@ public class App extends Application {
                         String[] arrOfStr = textField.getText().split(" ");
                         int a = Integer.parseInt(arrOfStr[0]);
                         int b = Integer.parseInt(arrOfStr[1]);
+                        series.setName("y=" + a + "x+" + b);
                         for (double i = -10; i < 10; i = i + 0.1) {
                             series.getData().add(new XYChart.Data(i, a * i + b));
                         }
@@ -88,6 +91,7 @@ public class App extends Application {
                         int a = Integer.parseInt(arrOfStr[0]);
                         int b = Integer.parseInt(arrOfStr[1]);
                         int c = Integer.parseInt(arrOfStr[2]);
+                        series.setName("y=" + a + "x^2+" + b + "x+" + c);
                         for (double i = -10; i < 10; i = i + 0.1) {
                             series.getData().add(new XYChart.Data(i, a * Math.pow(i, 2) + b * i + c));
                         }
@@ -98,6 +102,7 @@ public class App extends Application {
                         int a = Integer.parseInt(arrOfStr[0]);
                         int b = Integer.parseInt(arrOfStr[1]);
                         int c = Integer.parseInt(arrOfStr[2]);
+                        series.setName("y=" + a + "x^3+" + b + "x^2+" + c + "x");
                         for (double i = -10; i < 10; i = i + 0.1) {
                             series.getData().add(new XYChart.Data(i, a * Math.pow(i, 3) + b * Math.pow(i, 2) + c * i));
                         }
@@ -108,6 +113,7 @@ public class App extends Application {
                         int a = Integer.parseInt(arrOfStr[0]);
                         int b = Integer.parseInt(arrOfStr[1]);
                         int c = Integer.parseInt(arrOfStr[2]);
+                        series.setName("y=" + a + "x^4+" + b + "x^3+" + c + "x^2");
                         for (double i = -10; i < 10; i = i + 0.1) {
                             series.getData().add(new XYChart.Data(i, a * Math.pow(i, 4) + b * Math.pow(i, 3) + c * Math.pow(i, 2)));
                         }
@@ -115,6 +121,7 @@ public class App extends Application {
                     } else if (emailComboBox.getValue().equals("y=ax^2")) {
                         series.getData().clear();
                         int a = Integer.parseInt(textField.getText());
+                        series.setName("y=" + a + "x^2");
                         for (double i = -10; i < 10; i = i + 0.1) {
                             series.getData().add(new XYChart.Data(i, a*Math.pow(i, 2)));
                         }
@@ -122,6 +129,7 @@ public class App extends Application {
                     } else if (emailComboBox.getValue().equals("y=asin(x)")) {
                         series.getData().clear();
                         int a = Integer.parseInt(textField.getText());
+                        series.setName("y=" + a + "sin(x)");
                         for (double i = -10; i < 10; i = i + 0.1) {
                             series.getData().add(new XYChart.Data(i, a*Math.sin(i)));
                         }
@@ -129,6 +137,7 @@ public class App extends Application {
                     } else if (emailComboBox.getValue().equals("y=acos(x)")) {
                         series.getData().clear();
                         int a = Integer.parseInt(textField.getText());
+                        series.setName("y=" + a + "cos(x)");
                         for (double i = -10; i < 10; i = i + 0.1) {
                             series.getData().add(new XYChart.Data(i, a*Math.cos(i)));
                         }
